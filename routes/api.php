@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BuildingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,3 +23,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
+
+Route::group(['prefix' => 'buildings'], function () {
+    Route::post('/', [BuildingController::class, 'store']);
+    Route::get('/', [BuildingController::class, 'index']);
+    Route::patch('/{id}', [BuildingController::class, 'update']);
+    Route::delete('/{id}', [BuildingController::class, 'destroy']);
+});
