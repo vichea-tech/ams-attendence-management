@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/Schedule', function () {
+Route::get('/', function () {
+    return view('login');
+});
+Route::get('/schedule', function () {
     return view('welcome');
 });
+

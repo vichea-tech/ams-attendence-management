@@ -23,7 +23,7 @@
                 </a>
                 <!-- Navigation -->
                 <nav class="flex-grow">
-                    <a href="/Schedule"
+                    <a href="/schedule"
                         class="flex items-center gap-4 py-3 px-6 text-gray-700 hover:bg-teal-50 hover:text-teal-500 transition">
                         <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
