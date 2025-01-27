@@ -14,5 +14,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/Schedule', function () {
-    return view('welcome');
+    return view('schedule');
+});
+// Route for Attendance
+Route::get('/Attendance', function () {
+    return view('attendance');
 });
