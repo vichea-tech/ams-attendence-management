@@ -30,3 +30,4 @@ Route::group(['prefix' => 'buildings'], function () {
     Route::patch('/{id}', [BuildingController::class, 'update']);
     Route::delete('/{id}', [BuildingController::class, 'destroy']);
 });
+
