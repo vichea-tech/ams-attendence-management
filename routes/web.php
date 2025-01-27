@@ -23,3 +23,7 @@ Route::get('/schedule', function () {
 Route::get('/attendance', function () {
     return view('attendance');
 });
+
+Route::get('/scan', function () {
+    return view('scan');
+});
