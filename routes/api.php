@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BuildingController;
+use App\Http\Controllers\RoomController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,4 +30,10 @@ Route::group(['prefix' => 'buildings'], function () {
     Route::get('/', [BuildingController::class, 'index']);
     Route::patch('/{id}', [BuildingController::class, 'update']);
     Route::delete('/{id}', [BuildingController::class, 'destroy']);
+});
+Route::group(['prefix' => 'rooms'], function () {
+    Route::post('/', [RoomController::class, 'store']);
+    Route::get('/', [RoomController::class, 'index']);
+    Route::patch('/{id}', [RoomController::class, 'update']);
+    Route::delete('/{id}', [RoomController::class, 'destroy']);
 });

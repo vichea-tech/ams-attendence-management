@@ -2,12 +2,28 @@
     <div class="flex flex-col h-full">
         <!-- Logo -->
         <a href="#" class="flex items-center justify-center py-4 border-b border-gray-200">
-            <svg class="h-12 w-12 text-teal-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M12 2l6.928 4v8L12 18l-6.928-4V6l6.928-4z" />
+            <svg class="h-12 w-12 text-teal-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+                <!-- Outer Circle -->
+                <circle cx="100" cy="100" r="95" stroke="currentColor" stroke-width="8" />
+            
+                <!-- Stylized G -->
+                <path d="M70 100a30 30 0 1 1 30 30h-10v-12h10a18 18 0 1 0-18-18v30h-12V100z" fill="currentColor" />
+            
+                <!-- Stylized I -->
+                <rect x="95" y="65" width="10" height="70" rx="5" fill="currentColor" />
+            
+                <!-- Stylized C -->
+                <path d="M130 130a30 30 0 1 1 0-60h-10v12h10a18 18 0 1 0 0 36h-30v12h30z" fill="currentColor" />
+            
+                <!-- GIC Text Below -->
+                <text x="100" y="175" text-anchor="middle" font-size="24" font-family="Arial, sans-serif" font-weight="bold" fill="currentColor">
+                    GIC
+                </text>
             </svg>
+            
         </a>
+        
+        
 
         <!-- Navigation -->
         <nav class="flex-grow">

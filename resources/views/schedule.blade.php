@@ -12,7 +12,12 @@
         <div>
             <label for="department" class="block text-sm font-medium text-gray-700">Department</label>
             <select id="department" class="mt-1 block w-full p-2 border border-gray-300 rounded">
-                <option value="GIC">GIC</option>
+                {{-- <option value="GIC">GIC</option> --}}
+                <option value="GIC-1">GIC-1</option>
+                <option value="GIC-2">GIC-2</option>
+                <option value="GIC-3">GIC-3</option>
+                <option value="GIC-4">GIC-4</option>
+                <option value="GIC-5">GIC-5</option>
             </select>
         </div>
         <div>
@@ -58,40 +63,40 @@
                 <tr>
                     <td class="border border-gray-300 p-2">7:00 - 9:00</td>
                     <td class="border border-gray-300 bg-teal-500 text-white p-2">
-                        <div>Database I</div>
+                        <div class="text-end">Database I</div>
                         <div class="text-sm">Nop Phearum</div>
-                        <div class="text-sm">Y1-GIC</div>
-                        <div class="text-sm">A-101</div>
+                        <div class="text-sm">GIC-5</div>
+                        <div class="text-sm text-end">207F</div>
                     </td>
                     <td class="border border-gray-300 bg-teal-500 text-white p-2">
                         <div>Database I</div>
                         <div class="text-sm">Nop Phearum</div>
-                        <div class="text-sm">Y1-GIC</div>
+                        <div class="text-sm">GIC-3</div>
                         <div class="text-sm">A-101</div>
                     </td>
 
                     <td class="border border-gray-300 bg-teal-500 text-white p-2">
                         <div>Database I</div>
                         <div class="text-sm">Nop Phearum</div>
-                        <div class="text-sm">Y1-GIC</div>
+                        <div class="text-sm">GIC-1</div>
                         <div class="text-sm">A-101</div>
                     </td>
                     <td class="border border-gray-300 bg-teal-500 text-white p-2">
                         <div>Database I</div>
                         <div class="text-sm">Nop Phearum</div>
-                        <div class="text-sm">Y1-GIC</div>
+                        <div class="text-sm">GIC-4</div>
                         <div class="text-sm">A-101</div>
                     </td>
                     <td class="border border-gray-300 bg-teal-500 text-white p-2">
                         <div>Database I</div>
                         <div class="text-sm">Nop Phearum</div>
-                        <div class="text-sm">Y1-GIC</div>
+                        <div class="text-sm">GIC-3</div>
                         <div class="text-sm">A-101</div>
                     </td>
                     <td class="border border-gray-300 bg-teal-500 text-white p-2">
                         <div>Database I</div>
                         <div class="text-sm">Nop Phearum</div>
-                        <div class="text-sm">Y1-GIC</div>
+                        <div class="text-sm">GIC-1</div>
                         <div class="text-sm">A-101</div>
                     </td>
                 </tr>
@@ -100,7 +105,7 @@
                     <td class="border border-gray-300 bg-teal-500 text-white p-2">
                         <div>Database I</div>
                         <div class="text-sm">Nop Phearum</div>
-                        <div class="text-sm">Y1-GIC</div>
+                        <div class="text-sm">GIC-2</div>
                         <div class="text-sm">A-101</div>
                     </td>
                     {{-- <td class="border border-gray-300 p-2"><button class="bg-gray-100 p-2 rounded">+</button></td> --}}
@@ -115,7 +120,7 @@
                     <td class="border border-gray-300 bg-teal-500 text-white p-2">
                         <div>Database I</div>
                         <div class="text-sm">Nop Phearum</div>
-                        <div class="text-sm">Y1-GIC</div>
+                        <div class="text-sm">GIC-5</div>
                         <div class="text-sm">A-101</div>
                     </td>
                     {{-- <td class="border border-gray-300 p-2"><button class="bg-gray-100 p-2 rounded">+</button></td> --}}
@@ -123,7 +128,7 @@
                     <td class="border border-gray-300 bg-teal-500 text-white p-2">
                         <div>Database I</div>
                         <div class="text-sm">Nop Phearum</div>
-                        <div class="text-sm">Y1-GIC</div>
+                        <div class="text-sm">GIC-5</div>
                         <div class="text-sm">A-101</div>
                         {{-- </td></button></td> --}}
                     <td class="border border-gray-300 p-2"><button class="bg-gray-100 p-2 rounded">+</button></td>
@@ -136,7 +141,7 @@
                     <td class="border border-gray-300 bg-teal-500 text-white p-2">
                         <div>Database I</div>
                         <div class="text-sm">Nop Phearum</div>
-                        <div class="text-sm">Y1-GIC</div>
+                        <div class="text-sm">GIC-5</div>
                         <div class="text-sm">A-101</div>
                     </td>
                     {{-- <td class="border border-gray-300 p-2"><button class="bg-gray-100 p-2 rounded">+</button></td> --}}
@@ -150,4 +155,5 @@
 
         </table>
     </div>
+
 @endsection
