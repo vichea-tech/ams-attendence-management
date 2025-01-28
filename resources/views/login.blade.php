@@ -11,8 +11,8 @@
         <h1 class="text-2xl font-bold text-center text-gray-800 mb-4">Login</h1>
         <form id="loginForm" class="space-y-4">
             <div>
-                <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
-                <input type="text" id="username" name="username" 
+                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                <input type="email" id="email" name="email" 
                     class="mt-1 w-full p-2 border border-gray-300 rounded focus:ring focus:ring-teal-300" required>
             </div>
             <div>
@@ -25,21 +25,39 @@
                 Login
             </button>
         </form>
+        <div id="error" class="text-red-500 text-sm mt-2 hidden"></div>
     </div>
     <script>
-        // Handle form submission
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
 
-            // Example: Simulating authentication (Replace with real API logic)
-            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
-            if (username === 'admin' && password === 'password') {
-                // Redirect to the /schedule route on success
-                window.location.href = '/schedule';
-            } else {
-                alert('Invalid credentials! Please try again.');
+            try {
+                const response = await fetch('http://127.0.0.1:8000/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password }),
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    // Store the token or handle successful login
+                    localStorage.setItem('token', result.token); // Assuming your API returns a token
+                    alert('Login successful!');
+                    window.location.href = '/dashboard'; // Redirect after successful login
+                } else {
+                    document.getElementById('error').innerText = result.message || 'Invalid credentials!';
+                    document.getElementById('error').classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('error').innerText = 'An error occurred. Please try again.';
+                document.getElementById('error').classList.remove('hidden');
             }
         });
     </script>
