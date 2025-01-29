@@ -12,7 +12,7 @@ class ScheduleController extends Controller
      */
     public function index()
     {
-        $schedules = Schedule::with(['room', 'time7_9amUser', 'time9_11amUser', 'time1_3pmUser', 'time3_5pmUser'])->get();
+        $schedules = Schedule::with(['room', 'course', 'time7_9amUser', 'time9_11amUser', 'time1_3pmUser', 'time3_5pmUser'])->get();
         return response()->json($schedules, 200);
     }
 
@@ -31,38 +31,37 @@ class ScheduleController extends Controller
                 'time_1_3_pm' => 'nullable|exists:users,id',
                 'time_3_5_pm' => 'nullable|exists:users,id',
             ]);
-    
+
             // Check if a schedule already exists for this room and day
             $existingSchedule = Schedule::where('room_id', $validated['room_id'])
                 ->where('day', $validated['day'])
                 ->first();
-    
+
             if ($existingSchedule) {
                 return response()->json([
                     'message' => 'Schedule already exists for this room and day',
                     'schedule' => $existingSchedule
                 ], 409); // HTTP 409 Conflict
             }
-    
+
             // Create the schedule
             $schedule = Schedule::create($validated);
-    
+
             return response()->json([
                 'message' => 'Schedule created successfully',
                 'schedule' => $schedule
             ], 201);
-    
         } catch (\Exception $e) {
             // \Log::error('Error creating schedule: ' . $e->getMessage());
-    
+
             return response()->json([
                 'message' => 'Failed to create schedule',
                 'error' => $e->getMessage()
             ], 500);
         }
     }
-    
-    
+
+
 
     /**
      * Display the specified schedule.
@@ -81,7 +80,7 @@ class ScheduleController extends Controller
         try {
             // Find the schedule
             $schedule = Schedule::findOrFail($id);
-    
+
             // Validate the request data
             $validated = $request->validate([
                 'room_id' => 'sometimes|exists:rooms,id',
@@ -91,15 +90,14 @@ class ScheduleController extends Controller
                 'time_1_3_pm' => 'nullable|exists:users,id',
                 'time_3_5_pm' => 'nullable|exists:users,id',
             ]);
-    
+
             // Update the schedule
             $schedule->update($validated);
-    
+
             return response()->json([
                 "message" => "Schedule updated successfully",
                 "schedule" => $schedule
             ], 200);
-    
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json(["message" => "Schedule not found"], 404);
         } catch (\Exception $e) {
@@ -110,8 +108,8 @@ class ScheduleController extends Controller
             ], 500);
         }
     }
-    
-    
+
+
 
     /**
      * Remove the specified schedule from storage.

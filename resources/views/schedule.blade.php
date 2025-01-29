@@ -69,7 +69,7 @@
         </table>
     </div>
 
-    <!-- JavaScript to Fetch Data -->
+    <!-- JavaScript to Fetch and Render Data -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const apiEndpoint = "http://localhost:8000/api/schedules";
@@ -87,12 +87,12 @@
                 .catch(error => {
                     console.error("Error fetching schedules:", error);
                     timetableBody.innerHTML = `
-                <tr>
-                    <td colspan="7" class="text-center border border-gray-300 p-4 text-red-500">
-                        Failed to load timetable. Please try again.
-                    </td>
-                </tr>
-            `;
+                        <tr>
+                            <td colspan="7" class="text-center border border-gray-300 p-4 text-red-500">
+                                Failed to load timetable. Please try again.
+                            </td>
+                        </tr>
+                    `;
                 });
 
             function populateTimetable(schedules) {
@@ -134,18 +134,23 @@
                                     break;
                             }
 
+                            const courseName = schedule.course ? schedule.course.name : "No Course"; // Get course name
+
                             if (user) {
                                 // Populate cell with schedule data
-                                cell.className =
-                                "border border-gray-300 bg-teal-500 text-white p-2";
+                                cell.className = "border border-gray-300 bg-teal-500 text-white p-2";
                                 cell.innerHTML = `
-                            <div>${schedule.room.name}</div>
-                            <div class="text-sm">${user.name}</div>
-                        `;
+                                    <div class="font-bold">${schedule.room.name}</div>
+                                    <div class="text-sm text-yellow-300">${courseName}</div> <!-- Course Name Added -->
+                                    <div class="text-sm">${user.name}</div>
+                                `;
                             } else {
-                                // No data for this time slot
-                                cell.innerHTML =
-                                    `<button class="bg-gray-100 p-2 rounded">+</button>`;
+                                // No user assigned, but show course
+                                cell.innerHTML = `
+                                    <div class="font-bold">${schedule.room.name}</div>
+                                    <div class="text-sm text-yellow-300">${courseName}</div>
+                                    <button class="bg-gray-100 p-2 rounded">+</button>
+                                `;
                             }
                         } else {
                             // No schedule for this day
@@ -160,6 +165,5 @@
             }
         });
     </script>
-
 
 @endsection
