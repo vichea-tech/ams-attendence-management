@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Course;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,6 +16,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             BuildingSeeder::class,
             RoomSeeder::class,
+            CourseSeeder::class, 
             ScheduleSeeder::class,  // Add ScheduleSeeder here
             SubmitSeeder::class,
         ]);
