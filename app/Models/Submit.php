@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Submit extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'user_id',
+        'schedule_id',
+        'room_id',
+    ];
 }

@@ -16,9 +16,9 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             BuildingSeeder::class,
             RoomSeeder::class,
-            CourseSeeder::class, 
+            CourseSeeder::class,
             ScheduleSeeder::class,  // Add ScheduleSeeder here
-            SubmitSeeder::class,
+            // SubmitSeeder::class,
         ]);
     }
 }

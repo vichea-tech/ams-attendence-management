@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
             'name' => 'teacher',
             'email' => 'teacher@gmail.com',
             'role' => 'teacher',
-            'password' => Hash::make('Teacher@#123'),
+            'password' => Hash::make('123'),
         ]);
 
         // Normal user
