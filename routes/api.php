@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BuildingController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SubmitController;
@@ -76,3 +77,4 @@ Route::group(['prefix' => 'courses'], function () {
 });
 
 Route::get('/users/{userId}/timetable', [ScheduleController::class, 'getTimetableByUser']);
+Route::get('/dashboard', [DashboardController::class, 'index']);

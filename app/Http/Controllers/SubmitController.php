@@ -65,8 +65,8 @@ class SubmitController extends Controller
         }
 
         // Get the current time in the format HH:mm
-        // $currentTime = now()->format('H:i');
-        $currentTime = '10:00';
+        $currentTime = now()->format('H:i');
+        // $currentTime = '10:00';
 
         // Determine the time slot based on the current time
         if ($currentTime >= '07:00' && $currentTime <= '09:00') {
