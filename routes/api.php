@@ -64,7 +64,7 @@ Route::prefix('submits')->group(function () {
     Route::get('/{id}', [SubmitController::class, 'show']);
     Route::put('/{id}', [SubmitController::class, 'update']);
     Route::delete('/{id}', [SubmitController::class, 'destroy']);
-    Route::get('/check', [SubmitController::class, 'isValidSubmit']);
+    Route::get('/check/submit', [SubmitController::class, 'isValidSubmit']);
 });
 
 Route::group(['prefix' => 'courses'], function () {

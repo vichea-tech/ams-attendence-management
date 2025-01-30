@@ -13,4 +13,14 @@ class Submit extends Model
         'schedule_id',
         'room_id',
     ];
+
+    public function room()
+    {
+        return $this->belongsTo(Room::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
