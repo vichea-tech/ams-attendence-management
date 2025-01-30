@@ -24,7 +24,7 @@ class CourseController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255|unique:courses',
-            'code' => 'required|string|max:50|unique:courses',
+            'code' => 'nullable|string|max:50|unique:courses',
             'description' => 'nullable|string',
         ]);
 
