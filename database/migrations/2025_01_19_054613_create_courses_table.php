@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique(); // Course name (added unique constraint)
+            $table->string('code')->unique()->nullable(true); // Course code (added unique constraint)
+            $table->string('description')->nullable(); // Course description
             $table->timestamps();
         });
     }

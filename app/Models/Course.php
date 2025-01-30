@@ -13,8 +13,5 @@ class Course extends Model
         'name',
         'code',
         'description',
-        'credits',
     ];
-
-    // Define relationships here (if any)
 }

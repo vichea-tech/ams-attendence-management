@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Schedule;
 use App\Models\Submit;
 use Illuminate\Http\Request;
 
@@ -15,6 +16,30 @@ class SubmitController extends Controller
         $submits = Submit::all();
         return response()->json($submits);
     }
+
+    public function isValidSubmit(Request $request)
+{
+    // Validate the request data
+    $request->validate([
+        'user_id' => 'required|string',
+        'room_id' => 'required|string',
+        'day' => 'required|string',
+    ]);
+
+    // Fetch the schedule where room_id and day match
+    $schedule = Schedule::where('room_id', $request->room_id)
+        ->where('day', $request->day)
+        ->first();
+
+    // If no schedule is found, return a custom error response
+    if (!$schedule) {
+        return response()->json(['message' => 'No schedule found for the given room and day'], 404);
+    }
+
+    // Return the found schedule
+    return response()->json(['schedule' => $schedule], 200);
+}
+
 
     /**
      * Store a newly created submit in storage.

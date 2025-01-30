@@ -5,34 +5,39 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
         Schema::create('schedules', function (Blueprint $table) {
             $table->id();
             $table->foreignId('room_id')->constrained()->onDelete('cascade');
-            $table->foreignId('course_id')->constrained()->onDelete('cascade');
             $table->string('day'); // Monday, Tuesday, etc.
 
-            // Time slots - allow multiple courses per room per day by linking with course_id
+            // Time slots - allow multiple courses per room per day
+            // 7-9 AM slot
             $table->foreignId('time_7_9_am')->nullable()->constrained('users')->onDelete('set null');
-            $table->foreignId('time_9_11_am')->nullable()->constrained('users')->onDelete('set null');
-            $table->foreignId('time_1_3_pm')->nullable()->constrained('users')->onDelete('set null');
-            $table->foreignId('time_3_5_pm')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('time_7_9_am_course')->nullable()->constrained('courses')->onDelete('set null');
 
-            // Unique constraint on room_id, day, and course_id to prevent duplicate courses in the same room and day
-            $table->unique(['room_id', 'day', 'course_id'], 'unique_room_day_course');
+            // 9-11 AM slot
+            $table->foreignId('time_9_11_am')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('time_9_11_am_course')->nullable()->constrained('courses')->onDelete('set null');
+
+            // 1-3 PM slot
+            $table->foreignId('time_1_3_pm')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('time_1_3_pm_course')->nullable()->constrained('courses')->onDelete('set null');
+
+            // 3-5 PM slot
+            $table->foreignId('time_3_5_pm')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('time_3_5_pm_course')->nullable()->constrained('courses')->onDelete('set null');
+
+
+            // Unique constraint on room_id, day to prevent duplicate schedules
+            $table->unique(['room_id', 'day'], 'unique_room_day');
 
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('schedules');
     }

@@ -4,120 +4,158 @@ namespace App\Http\Controllers;
 
 use App\Models\Schedule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ScheduleController extends Controller
 {
     /**
-     * Display a listing of the schedules.
+     * Display all schedules for a given room.
      */
-    public function index()
+    public function index($room_id)
     {
-        $schedules = Schedule::with(['room', 'course', 'time7_9amUser', 'time9_11amUser', 'time1_3pmUser', 'time3_5pmUser'])->get();
-        return response()->json($schedules, 200);
+        $schedules = Schedule::with([
+            'room',
+            'time7_9AmTeacher', 'time7_9AmCourse',
+            'time9_11AmTeacher', 'time9_11AmCourse',
+            'time1_3PmTeacher', 'time1_3PmCourse',
+            'time3_5PmTeacher', 'time3_5PmCourse'
+        ])->where('room_id', $room_id)->get();
+
+        return response()->json(['data' => $schedules], 200);
     }
 
     /**
-     * Store a newly created schedule in storage.
+     * Store a new schedule.
      */
     public function store(Request $request)
     {
-        try {
-            // Validate the request data
-            $validated = $request->validate([
-                'room_id' => 'required|exists:rooms,id',
-                'day' => 'required|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday',
-                'time_7_9_am' => 'nullable|exists:users,id',
-                'time_9_11_am' => 'nullable|exists:users,id',
-                'time_1_3_pm' => 'nullable|exists:users,id',
-                'time_3_5_pm' => 'nullable|exists:users,id',
-            ]);
+        $validator = Validator::make($request->all(), [
+            'room_id' => 'required|exists:rooms,id',
+            'day' => 'required|string|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday',
 
-            // Check if a schedule already exists for this room and day
-            $existingSchedule = Schedule::where('room_id', $validated['room_id'])
-                ->where('day', $validated['day'])
-                ->first();
+            'time_7_9_am' => 'nullable|exists:users,id',
+            'time_7_9_am_course' => 'nullable|exists:courses,id',
 
-            if ($existingSchedule) {
-                return response()->json([
-                    'message' => 'Schedule already exists for this room and day',
-                    'schedule' => $existingSchedule
-                ], 409); // HTTP 409 Conflict
-            }
+            'time_9_11_am' => 'nullable|exists:users,id',
+            'time_9_11_am_course' => 'nullable|exists:courses,id',
 
-            // Create the schedule
-            $schedule = Schedule::create($validated);
+            'time_1_3_pm' => 'nullable|exists:users,id',
+            'time_1_3_pm_course' => 'nullable|exists:courses,id',
 
-            return response()->json([
-                'message' => 'Schedule created successfully',
-                'schedule' => $schedule
-            ], 201);
-        } catch (\Exception $e) {
-            // \Log::error('Error creating schedule: ' . $e->getMessage());
+            'time_3_5_pm' => 'nullable|exists:users,id',
+            'time_3_5_pm_course' => 'nullable|exists:courses,id',
+        ]);
 
-            return response()->json([
-                'message' => 'Failed to create schedule',
-                'error' => $e->getMessage()
-            ], 500);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
         }
-    }
 
+        $schedule = Schedule::create($request->all());
 
-
-    /**
-     * Display the specified schedule.
-     */
-    public function show($id)
-    {
-        $schedule = Schedule::with(['room', 'time7_9amUser', 'time9_11amUser', 'time1_3pmUser', 'time3_5pmUser'])->findOrFail($id);
-        return response()->json($schedule, 200);
+        return response()->json(['data' => $schedule], 201);
     }
 
     /**
-     * Update the specified schedule in storage.
+     * Update an existing schedule.
      */
     public function update(Request $request, $id)
     {
-        try {
-            // Find the schedule
-            $schedule = Schedule::findOrFail($id);
+        $schedule = Schedule::find($id);
 
-            // Validate the request data
-            $validated = $request->validate([
-                'room_id' => 'sometimes|exists:rooms,id',
-                'day' => 'sometimes|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday',
-                'time_7_9_am' => 'nullable|exists:users,id',
-                'time_9_11_am' => 'nullable|exists:users,id',
-                'time_1_3_pm' => 'nullable|exists:users,id',
-                'time_3_5_pm' => 'nullable|exists:users,id',
-            ]);
-
-            // Update the schedule
-            $schedule->update($validated);
-
-            return response()->json([
-                "message" => "Schedule updated successfully",
-                "schedule" => $schedule
-            ], 200);
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return response()->json(["message" => "Schedule not found"], 404);
-        } catch (\Exception $e) {
-            // \Log::error('Error updating schedule: ' . $e->getMessage());
-            return response()->json([
-                "message" => "Failed to update schedule",
-                "error" => $e->getMessage()
-            ], 500);
+        if (!$schedule) {
+            return response()->json(['message' => 'Schedule not found'], 404);
         }
+
+        $validator = Validator::make($request->all(), [
+            'room_id' => 'sometimes|exists:rooms,id',
+            'day' => 'sometimes|string|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday',
+
+            'time_7_9_am' => 'nullable|exists:users,id',
+            'time_7_9_am_course' => 'nullable|exists:courses,id',
+
+            'time_9_11_am' => 'nullable|exists:users,id',
+            'time_9_11_am_course' => 'nullable|exists:courses,id',
+
+            'time_1_3_pm' => 'nullable|exists:users,id',
+            'time_1_3_pm_course' => 'nullable|exists:courses,id',
+
+            'time_3_5_pm' => 'nullable|exists:users,id',
+            'time_3_5_pm_course' => 'nullable|exists:courses,id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $schedule->update($request->all());
+
+        return response()->json(['data' => $schedule], 200);
     }
 
-
-
     /**
-     * Remove the specified schedule from storage.
+     * Delete a schedule.
      */
     public function destroy($id)
     {
-        $schedule = Schedule::findOrFail($id);
+        $schedule = Schedule::find($id);
+
+        if (!$schedule) {
+            return response()->json(['message' => 'Schedule not found'], 404);
+        }
+
         $schedule->delete();
-        return response()->json(['message' => 'Schedule deleted successfully.'], 200);
+        return response()->json(['message' => 'Schedule deleted successfully'], 200);
+    }
+
+    public function getTimetableByUser($userId)
+    {
+        $schedules = Schedule::with(['room', 'teacher7_9', 'course7_9', 'teacher9_11', 'course9_11', 'teacher1_3', 'course1_3', 'teacher3_5', 'course3_5'])
+            ->where(function ($query) use ($userId) {
+                $query->where('time_7_9_am', $userId)
+                    ->orWhere('time_9_11_am', $userId)
+                    ->orWhere('time_1_3_pm', $userId)
+                    ->orWhere('time_3_5_pm', $userId);
+            })
+            ->get();
+
+        $timetable = [
+            'Monday' => [],
+            'Tuesday' => [],
+            'Wednesday' => [],
+            'Thursday' => [],
+            'Friday' => [],
+            'Saturday' => [],
+            'Sunday' => [],
+        ];
+
+        foreach ($schedules as $schedule) {
+            $day = $schedule->day;
+
+            $timetable[$day]['7:00 - 9:00'][] = [
+                'room' => $schedule->room->name ?? null,
+                'course' => $schedule->course7_9->name ?? null,
+                'teacher' => $schedule->teacher7_9->name ?? null,
+            ];
+
+            $timetable[$day]['9:00 - 11:00'][] = [
+                'room' => $schedule->room->name ?? null,
+                'course' => $schedule->course9_11->name ?? null,
+                'teacher' => $schedule->teacher9_11->name ?? null,
+            ];
+
+            $timetable[$day]['1:00 - 3:00'][] = [
+                'room' => $schedule->room->name ?? null,
+                'course' => $schedule->course1_3->name ?? null,
+                'teacher' => $schedule->teacher1_3->name ?? null,
+            ];
+
+            $timetable[$day]['3:00 - 5:00'][] = [
+                'room' => $schedule->room->name ?? null,
+                'course' => $schedule->course3_5->name ?? null,
+                'teacher' => $schedule->teacher3_5->name ?? null,
+            ];
+        }
+
+        return response()->json(['timetable' => $timetable], 200);
     }
 }

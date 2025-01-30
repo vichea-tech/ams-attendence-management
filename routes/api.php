@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BuildingController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SubmitController;
@@ -43,11 +44,12 @@ Route::group(['prefix' => 'rooms'], function () {
 });
 
 Route::group(['prefix' => 'schedules'], function () {
-    Route::post('/', [ScheduleController::class, 'store']);
-    Route::get('/', [ScheduleController::class, 'index']);
-    Route::patch('/{id}', [ScheduleController::class, 'update']);
-    Route::delete('/{id}', [ScheduleController::class, 'destroy']);
+    Route::post('/', [ScheduleController::class, 'store']); // Create schedule
+    Route::get('/{room_id}', [ScheduleController::class, 'index']); // List schedules by room
+    Route::patch('/{id}', [ScheduleController::class, 'update']); // Update schedule
+    Route::delete('/{id}', [ScheduleController::class, 'destroy']); // Delete schedule
 });
+
 
 Route::group(['prefix' => 'users'], function () {
     Route::post('/', [UserController::class, 'store']);
@@ -62,4 +64,15 @@ Route::prefix('submits')->group(function () {
     Route::get('/{id}', [SubmitController::class, 'show']);
     Route::put('/{id}', [SubmitController::class, 'update']);
     Route::delete('/{id}', [SubmitController::class, 'destroy']);
+    Route::get('/check', [SubmitController::class, 'isValidSubmit']);
 });
+
+Route::group(['prefix' => 'courses'], function () {
+    Route::post('/', [CourseController::class, 'store']); // Create a course
+    Route::get('/', [CourseController::class, 'index']); // List all courses
+    Route::get('/{id}', [CourseController::class, 'show']); // Get a course by ID
+    Route::patch('/{id}', [CourseController::class, 'update']); // Update a course
+    Route::delete('/{id}', [CourseController::class, 'destroy']); // Delete a course
+});
+
+Route::get('/users/{userId}/timetable', [ScheduleController::class, 'getTimetableByUser']);
