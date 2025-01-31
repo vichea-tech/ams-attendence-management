@@ -27,7 +27,7 @@
 
         <!-- Navigation -->
         <nav class="flex-grow">
-            <a href="/Schedule"
+            <a href="/schedule"
                 class="flex items-center gap-4 py-3 px-6 text-gray-700 hover:bg-teal-50 hover:text-teal-500 transition {{ strtolower(request()->path()) === 'schedule' ? 'bg-teal-50 text-teal-500 font-bold' : '' }}">
                 <svg class="h-4 w-4 text-teal-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor" stroke-width="2">
@@ -36,7 +36,7 @@
                 </svg>
                 <span class="hidden md:block">Schedule</span>
             </a>
-            <a href="/Attendance"
+            <a href="/attendance"
                 class="flex items-center gap-4 py-3 px-6 text-gray-700 hover:bg-teal-50 hover:text-teal-500 transition {{ strtolower(request()->path()) === 'attendance' ? 'bg-teal-50 text-teal-500 font-bold' : '' }}">
                 <svg class="h-5 w-5 text-teal-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor" stroke-width="2">

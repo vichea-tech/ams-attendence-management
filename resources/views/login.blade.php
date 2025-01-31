@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>Login</title>
 </head>
 <body class="bg-gray-100 flex items-center justify-center h-screen">
@@ -27,49 +28,39 @@
         </form>
         <div id="error" class="text-red-500 text-sm mt-2 hidden"></div>
     </div>
+
     <script>
         document.getElementById('loginForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
+            e.preventDefault();
 
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
 
-    try {
-        const response = await fetch('http://127.0.0.1:8000/api/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'), // Add CSRF token from cookies
-            },
-            credentials: 'include', // Important for Sanctum authentication
-            body: JSON.stringify({ email, password }),
+            try {
+                // Step 1: Fetch CSRF token
+                await axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie', {
+                    withCredentials: true, // Required for Sanctum
+                });
+
+                // Step 2: Attempt login
+                const response = await axios.post('http://127.0.0.1:8000/api/login', {
+                    email,
+                    password,
+                }, {
+                    withCredentials: true, // Required for Sanctum
+                });
+
+                alert('Login successful!');
+                window.location.href = '/schedule'; // Redirect to dashboard
+            } catch (error) {
+                console.error('Error:', error);
+
+                // Handle error messages
+                const errorMessage = error.response?.data?.message || 'An error occurred. Please try again.';
+                document.getElementById('error').innerText = errorMessage;
+                document.getElementById('error').classList.remove('hidden');
+            }
         });
-
-        const result = await response.json();
-
-        if (response.ok) {
-            localStorage.setItem('token', result.token); // Store token if needed
-            alert('Login successful!');
-            window.location.href = '/dashboard'; // Redirect to dashboard
-        } else {
-            document.getElementById('error').innerText = result.message || 'Invalid credentials!';
-            document.getElementById('error').classList.remove('hidden');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        document.getElementById('error').innerText = 'An error occurred. Please try again.';
-        document.getElementById('error').classList.remove('hidden');
-    }
-});
-
-// Function to get the CSRF token from cookies
-function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-}
-
     </script>
 </body>
 </html>
